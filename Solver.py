@@ -16,7 +16,7 @@ board_new =[[0, 0, 0, 0, 0, 0, 0, 0, 0],
 def print_out(board):
     for i in range(len(board)):
         if i!=0 and i%3 == 0:
-            print ("- - - - - - - - - - -")
+            print ("- - - + - - - + - - -")
         for j in range(len(board[0])):
             if j !=0 and j % 3 == 0:
                 print ("| ", end = "")
