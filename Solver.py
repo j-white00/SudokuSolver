@@ -1,4 +1,7 @@
+import turtle
 from random import shuffle, randint
+
+myPen = turtle.Turtle
 
 board_new =[[0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0],
