@@ -49,7 +49,7 @@ def locate_empty(board):
             if board[i][j] == 0:
                 return (i, j) # y, x
     return False
-
+    
 def sudoku_solve(board):
     find = locate_empty(board)
     if not find:
