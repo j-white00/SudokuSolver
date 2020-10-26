@@ -1,7 +1,14 @@
-import turtle
+import pygame, sys
+from pygame.locals import *
 from random import shuffle, randint
 
-myPen = turtle.Turtle
+col_white = (255, 255, 255)
+col_grey = (211, 211,  211)
+col_black = (0, 0, 0)
+col_green = (173, 255, 47)
+win_size = 495
+big_square_size = win_size // 3
+mini_square_size = big_square_size // 3
 
 board_new =[[0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -78,7 +85,8 @@ def populate(board):
 def remove_tiles(board):
     #min clues      17 max clues    45
     #max delTiles   64 min delTiles 36
-    del_tiles = randint(36, 64)
+    del_tiles = randint(36, 40)
+    #del_tiles = randint(36, 64)
     print("  Tiles Missing:", del_tiles, "\n=====================")
     while del_tiles !=0:
         row = randint(0,8)
@@ -87,15 +95,49 @@ def remove_tiles(board):
             board[row][col] = 0
             del_tiles -= 1
 
-populate(board_new)
-sudoku_solve(board_new)
-print("\n----|| Sudoku! ||----\n=====================")
-remove_tiles(board_new)
-print_out(board_new)
-while True:
-    solved = input('\nType "Solve" to reveal solution: ')
-    if(solved == "Solve" or solved == "solve"):
-        break
-print("\n    Solved Board\n=====================")
-sudoku_solve(board_new)
-print_out(board_new)
+def draw():
+    for x in range(0, win_size, mini_square_size):
+        pygame.draw.line(win_display, col_grey, (x, 0), (x, win_size))
+
+    for y in range(0, win_size, mini_square_size):
+        pygame.draw.line(win_display, col_grey, (0, y), (win_size, y))
+
+    for x in range(0, win_size, big_square_size):
+        pygame.draw.line(win_display, col_black, (x, 0), (x, win_size))
+
+    for y in range(0, win_size, big_square_size):
+        pygame.draw.line(win_display, col_black, (0, y), (win_size, y))
+
+def main():
+    global win_clock, win_display
+    pygame.init()
+    pygame.display.set_caption("Sudoku Genius")
+    win_clock = pygame.time.Clock()
+    win_display = pygame.display.set_mode((win_size, win_size))
+    win_display.fill(col_white)
+    draw()
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+        pygame.display.update()
+        win_clock.tick(5)
+
+    pygame.quit()
+
+if __name__ == "__main__":
+    main()
+
+# populate(board_new)
+# sudoku_solve(board_new)
+# print("\n----|| Sudoku! ||----\n=====================")
+# remove_tiles(board_new)
+# print_out(board_new)
+# while True:
+#     solved = input('\nType "Solve" to reveal solution: ')
+#     if(solved == "Solve" or solved == "solve"):
+#         break
+# print("\n    Solved Board\n=====================")
+# sudoku_solve(board_new)
+# print_out(board_new)
