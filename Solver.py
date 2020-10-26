@@ -129,15 +129,15 @@ def main():
 if __name__ == "__main__":
     main()
 
-# populate(board_new)
-# sudoku_solve(board_new)
-# print("\n----|| Sudoku! ||----\n=====================")
-# remove_tiles(board_new)
-# print_out(board_new)
+populate(board_new)
+sudoku_solve(board_new)
+print("\n----|| Sudoku! ||----\n=====================")
+remove_tiles(board_new)
+print_out(board_new)
 # while True:
 #     solved = input('\nType "Solve" to reveal solution: ')
 #     if(solved == "Solve" or solved == "solve"):
 #         break
-# print("\n    Solved Board\n=====================")
-# sudoku_solve(board_new)
-# print_out(board_new)
+print("\n    Solved Board\n=====================")
+sudoku_solve(board_new)
+print_out(board_new)
