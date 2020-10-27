@@ -59,14 +59,21 @@ def locate_empty(board):
             if board[i][j] == 0:
                 return (i, j) # y, x
     return False
-    
+
+# def display_cube(row, col):
+#     if prev_pos:
+#         win_display.blit(bk_sq, prev_pos)
+#     prev_pos = (row, col)
+#     bk_sq.blit(win_display, (0, 0), (*prev_pos, 55, 55))
+#     pygame.draw.rect(win_display, col_green, (row, col, 10, 10))
+
 def sudoku_solve(board):
     find = locate_empty(board)
     if not find:
         return True
     else:
         row, col = find
-
+        #display a cube and copy a backup of board without select square, alsom update board backup with correct numbers but no select square.
     for i in range(1, 10):
         if valid(board, i, (row, col)):
             board[row][col] = i
@@ -87,7 +94,6 @@ def remove_tiles(board):
     #max delTiles   64 min delTiles 36
     del_tiles = randint(36, 40)
     #del_tiles = randint(36, 64)
-    print("  Tiles Missing:", del_tiles, "\n=====================")
     while del_tiles !=0:
         row = randint(0,8)
         col = randint(0,8)
@@ -95,27 +101,43 @@ def remove_tiles(board):
             board[row][col] = 0
             del_tiles -= 1
 
-def draw():
+def display_num(num, position):
+        font = pygame.font.SysFont('arial', 50)
+        text = font.render(str(num), True, (0, 0, 0))
+        win_display.blit(text, position)
+        pygame.display.update()
+
+def draw(board):
     for x in range(0, win_size, mini_square_size):
         pygame.draw.line(win_display, col_grey, (x, 0), (x, win_size))
 
     for y in range(0, win_size, mini_square_size):
         pygame.draw.line(win_display, col_grey, (0, y), (win_size, y))
 
-    for x in range(0, win_size, big_square_size):
-        pygame.draw.line(win_display, col_black, (x, 0), (x, win_size))
+    for x in range(165, win_size, big_square_size):
+        pygame.draw.line(win_display, col_black, (x, 0), (x, win_size), 2)
 
-    for y in range(0, win_size, big_square_size):
-        pygame.draw.line(win_display, col_black, (0, y), (win_size, y))
+    for y in range(165, win_size, big_square_size):
+        pygame.draw.line(win_display, col_black, (0, y), (win_size, y), 2)
+
+    for i in range(len(board)):
+        for j in range(len(board[0])):
+            if(board[i][j] != 0):
+                display_num(board[i][j], (i*55 + 15, j*55))
+            else:
+                display_num("", (i*55 + 16, j*55))
 
 def main():
     global win_clock, win_display
+    populate(board_new)
+    sudoku_solve(board_new)
+    remove_tiles(board_new)
     pygame.init()
-    pygame.display.set_caption("Sudoku Genius")
+    pygame.display.set_caption("Sudoku Solve")
     win_clock = pygame.time.Clock()
     win_display = pygame.display.set_mode((win_size, win_size))
     win_display.fill(col_white)
-    draw()
+    draw(board_new)
     running = True
     while running:
         for event in pygame.event.get():
@@ -129,15 +151,5 @@ def main():
 if __name__ == "__main__":
     main()
 
-populate(board_new)
-sudoku_solve(board_new)
-print("\n----|| Sudoku! ||----\n=====================")
-remove_tiles(board_new)
-print_out(board_new)
-# while True:
-#     solved = input('\nType "Solve" to reveal solution: ')
-#     if(solved == "Solve" or solved == "solve"):
-#         break
-print("\n    Solved Board\n=====================")
-sudoku_solve(board_new)
-print_out(board_new)
+# sudoku_solve(board_new)
+# print_out(board_new)
